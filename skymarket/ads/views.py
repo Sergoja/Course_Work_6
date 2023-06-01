@@ -1,5 +1,8 @@
 from rest_framework import pagination, viewsets
 
+from ads.models import Ad, Comment
+from ads.serializers import AdSerializer, CommentSerializer
+
 
 class AdPagination(pagination.PageNumberPagination):
     pass
@@ -7,9 +10,11 @@ class AdPagination(pagination.PageNumberPagination):
 
 # TODO view функции. Предлагаем Вам следующую структуру - но Вы всегда можете использовать свою
 class AdViewSet(viewsets.ModelViewSet):
-    pass
+    queryset = Ad.objects.all()
+    serializer_class = AdSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    pass
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
 
