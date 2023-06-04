@@ -1,13 +1,15 @@
 from django.conf.urls.static import static
 from django.urls import include, path
+from rest_framework.routers import SimpleRouter
 
+from ads.views import AdViewSet
 from skymarket import settings
 
 # TODO настройка роутов для модели
 
+urlpatterns = []
+ads_router = SimpleRouter()
 
-urlpatterns = [
+ads_router.register('', AdViewSet)
 
-]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += ads_router.urls
