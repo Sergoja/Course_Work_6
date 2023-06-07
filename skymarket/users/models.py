@@ -1,4 +1,6 @@
-from django.contrib.auth.models import AbstractBaseUser, AbstractUser
+from datetime import date
+
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.db.models import TextChoices
 
@@ -12,22 +14,38 @@ class UserRoles(TextChoices):
     ADMIN = "admin", "Админ"
 
 
-class User(AbstractUser):
+class User(AbstractBaseUser):
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', "role"]
+
     role = models.CharField(
         max_length=10,
         choices=UserRoles.choices,
         default=UserRoles.USER)
     phone = models.CharField(max_length=15)
-    last_login = models.DateTimeField()
-    image = models.ImageField(upload_to='logos/')
+    last_login = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='logos/', null=True)
+    email = models.EmailField(max_length=50, unique=True)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
 
-    def save(self, *args, **kwargs):
-        self.set_password(raw_password=self.password)
-        super().save(*args, **kwargs)
+    @property
+    def is_admin(self):
+        if self.role == "admin":
+            return True
 
-    class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+    @property
+    def is_superuser(self):
+        return self.is_admin
 
-    def __str__(self):
-        return self.username
+    @property
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    objects = UserManager()

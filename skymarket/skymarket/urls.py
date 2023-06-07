@@ -16,7 +16,7 @@ urlpatterns = [
     ),
     path('ads/', include('ads.urls')),
     path('comments/', include('ads.urls')),
-    path('users/', include('users.urls')),
+    path('', include('users.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
