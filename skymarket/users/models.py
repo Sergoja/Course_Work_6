@@ -23,11 +23,11 @@ class User(AbstractBaseUser):
         choices=UserRoles.choices,
         default=UserRoles.USER)
     phone = models.CharField(max_length=15)
-    last_login = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='logos/', null=True)
     email = models.EmailField(max_length=50, unique=True)
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
 
     @property
     def is_admin(self):
