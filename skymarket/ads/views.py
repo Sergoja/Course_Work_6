@@ -1,7 +1,7 @@
-from rest_framework import pagination, viewsets
+from rest_framework import pagination, viewsets, mixins
 
 from ads.models import Ad, Comment
-from ads.serializers import AdSerializer, CommentSerializer
+from ads.serializers import AdSerializer, CommentSerializer, AdDetailSerializer
 
 
 class AdPagination(pagination.PageNumberPagination):
@@ -12,6 +12,11 @@ class AdPagination(pagination.PageNumberPagination):
 class AdViewSet(viewsets.ModelViewSet):
     queryset = Ad.objects.all()
     serializer_class = AdSerializer
+
+
+class AdMeViewSet(mixins.ListModelMixin):
+    queryset = Ad.objects.all()
+    serializer_class = AdDetailSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):

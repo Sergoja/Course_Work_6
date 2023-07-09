@@ -14,13 +14,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
-
-
-
-
-class UserRegistrationSerializer(BaseUserRegistrationSerializer):
-    pass
-
-
-class CurrentUserSerializer(serializers.ModelSerializer):
-    pass
