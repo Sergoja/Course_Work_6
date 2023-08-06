@@ -6,7 +6,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from ads.models import Ad, Comment
-from ads.permissions import IsOwner, IsStaff
+# from ads.permissions import IsOwner, IsStaff
 from ads.serializers import AdSerializer, CommentSerializer, AdDetailSerializer
 
 
@@ -19,14 +19,14 @@ class AdViewSet(viewsets.ModelViewSet):
     serializer_class = AdSerializer
     permissions = {
         'retrieve': [IsAuthenticated],
-        'update': [IsAuthenticated, IsOwner | IsStaff],
-        'partial_update': [IsAuthenticated, IsOwner | IsStaff],
-        'destroy': [IsAuthenticated, IsOwner | IsStaff]
+        # 'update': [IsAuthenticated, IsOwner | IsStaff],
+        # 'partial_update': [IsAuthenticated, IsOwner | IsStaff],
+        # 'destroy': [IsAuthenticated, IsOwner | IsStaff]
     }
     default_permission = [AllowAny]
 
-    def get_permissions(self):
-        return [permission() for permission in self.permissions.get(self.action, self.default_permission)]
+    # def get_permissions(self):
+    #     return [permission() for permission in self.permissions.get(self.action, self.default_permission)]
 
     def perform_create(self, serializer):
         user = self.request.user
